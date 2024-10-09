@@ -10,7 +10,15 @@ from kivy.core.audio import SoundLoader
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.progressbar import ProgressBar
 import random 
+from kivy.core.window import Window
+# Establecer el tamaño de la ventana
+Window.size = (800, 600)
 
+# Establecer el título de la ventana
+Window.title = "Supervivencia Mental"
+
+# Establecer el color de fondo de la ventana
+Window.clearcolor = (0.02, 0.08, 0.15, 1)  # Azul oscuro
 class MainScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -334,6 +342,7 @@ class GameScreen(Screen):
         if self.time_left <= 0:
             Clock.unschedule(self.update_time)  # Detenemos el temporizador
             self.show_game_over_popup()  # Mostramos el popup de fin del juego
+    
 
     def set_difficulty(self, time_limit):
             self.initial_time = time_limit
