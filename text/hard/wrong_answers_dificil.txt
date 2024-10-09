@@ -1,0 +1,3 @@
+Berlín,Madrid
+Java,Swift
+7,9

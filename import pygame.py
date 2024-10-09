@@ -144,33 +144,31 @@ class DifficultyScreen(Screen):
             Color(0.02, 0.08, 0.15, 1)  # Fondo azul oscuro #021526
             self.bg_rect = RoundedRectangle(size=layout.size, pos=layout.pos, radius=[0])
             layout.bind(size=self._update_bg_rect, pos=self._update_bg_rect)
-
-        self.add_widget(layout)
+            self.add_widget(layout)
     
     def _update_bg_rect(self, instance, value):
         self.bg_rect.pos = instance.pos
         self.bg_rect.size = instance.size
-
-    def start_game_easy(self, instance):
+    def start_game_easy(self, instance=None):
         self.manager.current = 'game'
         self.manager.get_screen('game').set_difficulty(35)
 
-    def start_game_medium(self, instance):
+    def start_game_medium(self, instance=None):
         self.manager.current = 'game'
         self.manager.get_screen('game').set_difficulty(20)
 
-    def start_game_hard(self, instance):
+    def start_game_hard(self, instance=None):
         self.manager.current = 'game'
         self.manager.get_screen('game').set_difficulty(15)
 
-    def go_back_to_main_menu(self, instance):
-        self.manager.current = 'main'
-
+    def go_back_to_main_menu(self, instance=None):
+        # Implementation for going back to the main menu
+        pass
 class GameScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.sound_correct = SoundLoader.load('\sounds\correct_answer.wav')
-        self.sound_wrong = SoundLoader.load('\sounds\wrong_answer.wav')
+        self.sound_correct = SoundLoader.load('sounds/correct_answer.wav')
+        self.sound_wrong = SoundLoader.load('sounds/wrong_answer.wav')
         self.questions = []
         self.correct_answers = []
         self.wrong_answers = []
@@ -254,20 +252,29 @@ class GameScreen(Screen):
             button.bind(on_press=self.check_answer)
             return button
 
-    def load_questions_and_answers(self):
-            with open('text/questions.txt', 'r', encoding='utf-8') as file:
-                self.questions = [line.strip() for line in file.readlines()]
+    def load_questions_and_answers(self, difficulty):
+       
+        # Definir la ruta base y la carpeta según la dificultad seleccionada
+        base_path = f'text/{difficulty}/'
+        
+        # Archivos basados en la dificultad
+        question_file = f"{base_path}questions_{difficulty}.txt.txt"
+        correct_file = f"{base_path}correct_answers_{difficulty}.txt.txt"
+        wrong_file = f"{base_path}wrong_answers_{difficulty}.txt.txt"
 
-            with open('text/correct_answers.txt', 'r', encoding='utf-8') as file:
-                self.correct_answers = [line.strip() for line in file.readlines()]
+        with open(question_file, 'r', encoding='utf-8') as file:
+            self.questions = [line.strip() for line in file.readlines()]
 
-            with open('text/wrong_answers.txt', 'r', encoding='utf-8') as file:
-                self.wrong_answers = [line.strip().split(',') for line in file.readlines()]
+        with open(correct_file, 'r', encoding='utf-8') as file:
+            self.correct_answers = [line.strip() for line in file.readlines()]
 
-            if len(self.questions) != len(self.correct_answers) or len(self.questions) != len(self.wrong_answers):
-                raise ValueError("El número de preguntas no coincide con el número de respuestas.")
+        with open(wrong_file, 'r', encoding='utf-8') as file:
+            self.wrong_answers = [line.strip().split(',') for line in file.readlines()]
 
-            self.load_question(0)
+        if len(self.questions) != len(self.correct_answers) or len(self.questions) != len(self.wrong_answers):
+            raise ValueError("El número de preguntas no coincide con el número de respuestas.")
+
+        self.load_question(0)
 
     def load_question(self, index):
         self.current_question_index = index
