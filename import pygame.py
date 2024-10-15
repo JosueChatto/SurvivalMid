@@ -157,17 +157,21 @@ class DifficultyScreen(Screen):
     def _update_bg_rect(self, instance, value):
         self.bg_rect.pos = instance.pos
         self.bg_rect.size = instance.size
+
     def start_game_easy(self, instance=None):
+        other_arg_value = 'facil'
         self.manager.current = 'game'
-        self.manager.get_screen('game').set_difficulty(35)
+        self.manager.get_screen('game').set_difficulty(35, other_arg_value)
 
     def start_game_medium(self, instance=None):
+        other_arg_value = 'medio' 
         self.manager.current = 'game'
-        self.manager.get_screen('game').set_difficulty(20)
+        self.manager.get_screen('game').set_difficulty(23, other_arg_value)
 
     def start_game_hard(self, instance=None):
+        other_arg_value = 'dificil'
         self.manager.current = 'game'
-        self.manager.get_screen('game').set_difficulty(15)
+        self.manager.get_screen('game').set_difficulty(15, other_arg_value)
 
     def go_back_to_main_menu(self, instance=None):
         # Implementation for going back to the main menu
@@ -266,9 +270,9 @@ class GameScreen(Screen):
         base_path = f'text/{difficulty}/'
         
         # Archivos basados en la dificultad
-        question_file = f"{base_path}questions_{difficulty}.txt.txt"
-        correct_file = f"{base_path}correct_answers_{difficulty}.txt.txt"
-        wrong_file = f"{base_path}wrong_answers_{difficulty}.txt.txt"
+        question_file = f"{base_path}questions.txt"
+        correct_file = f"{base_path}correct_answers.txt"
+        wrong_file = f"{base_path}wrong_answers.txt"
 
         with open(question_file, 'r', encoding='utf-8') as file:
             self.questions = [line.strip() for line in file.readlines()]
@@ -344,13 +348,14 @@ class GameScreen(Screen):
             self.show_game_over_popup()  # Mostramos el popup de fin del juego
     
 
-    def set_difficulty(self, time_limit):
-            self.initial_time = time_limit
-            self.time_left = time_limit
-            self.timer_bar.max = time_limit
-            self.timer_bar.value = time_limit
-            Clock.schedule_interval(self.update_time, 1)
-            self.load_questions_and_answers()
+    def set_difficulty(self, time_limit, difficulty):
+            self.load_questions_and_answers(difficulty)  # Cargar preguntas basadas en la dificultad
+            self.initial_time = time_limit  # Establecer el tiempo inicial
+            self.time_left = time_limit  # El tiempo restante es igual al tiempo límite
+            self.timer_bar.max = time_limit  # Establecer el máximo valor del temporizador
+            self.timer_bar.value = time_limit  # Inicializar la barra de progreso con el tiempo restante
+            Clock.schedule_interval(self.update_time, 1)  # Iniciar el temporizador
+            #self.load_questions_and_answers()
 
     def show_game_over_popup(self):
         popup = Popup(
