@@ -259,6 +259,9 @@ class GameScreen(Screen):
                 font_size=24,
                 size_hint=(None, None),
                 size=(200, 50),
+                text_size=(200, None),  # Esto permitirá que el texto se ajuste dentro del botón
+                halign='center',  # Centra horizontalmente
+                valign='middle',  # Centra verticalmente
                 background_normal='',
                 background_color=(0.1, 0.5, 0.9, 1)  # Azul
             )
