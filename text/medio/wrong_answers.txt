@@ -1,3 +1,10 @@
-Berlín,Madrid
-Java,Swift
-7,9
+1941,1940
+Canadá,China
+Vitamina C,Vitamina A
+El corazón,El hígado
+El Nilo,El Yangtsé
+Plata,Cobre
+Julio Cortázar,Mario Vargas Llosa
+México,Perú
+Océano Atlántico,Océano Índico
+Buzz Aldrin,Yuri Gagarin

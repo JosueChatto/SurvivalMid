@@ -1,3 +1,10 @@
-Berlín,Madrid
-Java,Swift
-7,9
+Azteca,Olmeca
+Bélgica,Canadá
+Teorema de Fermat,Teorema de Euclides
+El protón,El neutrón
+Mónaco,San Marino
+Fosa de Tonga,Fosa Filipina
+Isaac Newton,Niels Bohr
+Roca sedimentaria,Roca metamórfica
+100 millones de kilómetros,200 millones de kilómetros
+Roma,Madrid

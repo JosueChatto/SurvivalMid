@@ -1,3 +1,10 @@
-Berlín,Madrid
-Java,Swift
-7,9
+5,6
+Verde,Rojo
+6,8
+Elefante,León
+Nitrógeno,Carbono
+Verde,Rosa
+6,10
+Asia,Europa
+4,5
+Venus,Marte

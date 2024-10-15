@@ -1,3 +1,10 @@
-¿Cuál es la capital de Francia?
-¿Qué lenguaje se utiliza en esta aplicación?
-¿Cuántos planetas hay en el sistema solar?
+¿Qué es 2 + 2?
+¿Cuál es el color del cielo durante el día?
+¿Cuántos días tiene una semana?
+¿Cuál es el animal más grande en la tierra?
+¿Qué gas respiramos para vivir?
+¿De qué color son las bananas maduras?
+¿Cuántas patas tiene una araña?
+¿En qué continente se encuentra Brasil?
+¿Cuántos lados tiene un triángulo?
+¿Qué planeta está más cerca del Sol?
