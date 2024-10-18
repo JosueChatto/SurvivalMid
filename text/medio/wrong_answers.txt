@@ -8,3 +8,13 @@ Julio Cortázar,Mario Vargas Llosa
 México,Perú
 Océano Atlántico,Océano Índico
 Buzz Aldrin,Yuri Gagarin
+Brasil,Uruguay
+El efecto de la lluvia ácida,El efecto de la contaminación
+Sídney,Melbourne
+Pablo Picasso,Salvador Dalí
+Asia,Europa
+Mamífero,Reptil
+Dólar,Euro
+Rebelión en la granja,El guardián entre el centeno
+Océano Índico,Océano Pacífico
+Rosalind Franklin,Jane Goodall

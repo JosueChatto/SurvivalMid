@@ -8,3 +8,13 @@ Isaac Newton,Niels Bohr
 Roca sedimentaria,Roca metamórfica
 100 millones de kilómetros,200 millones de kilómetros
 Roma,Madrid
+Platón,Aristóteles
+Louis Pasteur,Edward Jenner
+Egipto,Siria
+Ley de gravitación universal,Ley de Coulomb
+1940,1950
+Nerón,Julio César
+Español,Inglés
+Maya,Inca
+Oslo,Copenhague
+Henri Matisse,Marc Chagall

@@ -8,3 +8,13 @@ Verde,Rosa
 Asia,Europa
 4,5
 Venus,Marte
+Manzana,Naranja
+Guadalajara,Monterrey
+Océano Atlántico,Mar Caribe
+Donald Duck,Bugs Bunny
+Tres,Cinco
+En el brazo,En la cabeza
+Barómetro,Higrómetro
+Stephen King,Agatha Christie
+Asia,América
+Tigre,Elefante
