@@ -10,6 +10,7 @@ from kivy.core.audio import SoundLoader
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.progressbar import ProgressBar
 import random 
+from kivy.uix.popup import Popup
 from kivy.core.window import Window
 # Establecer el tamaño de la ventana
 Window.size = (800, 600)
@@ -23,7 +24,6 @@ class MainScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         layout = FloatLayout()
-
         title = Label(
             text="Supervivencia Mental",
             font_size=50,
@@ -38,7 +38,7 @@ class MainScreen(Screen):
             text="¡JUGAR!",
             font_size=40,
             size_hint=(None, None),
-            size=(200, 100),
+            size=(200, 75),
             pos_hint={'center_x': 0.5, 'center_y': 0.5},
             background_color=(0.1, 0.7, 0.1, 1)  # Verde
             
@@ -161,17 +161,17 @@ class DifficultyScreen(Screen):
     def start_game_easy(self, instance=None):
         other_arg_value = 'facil'
         self.manager.current = 'game'
-        self.manager.get_screen('game').set_difficulty(35, other_arg_value)
+        self.manager.get_screen('game').set_difficulty(40, other_arg_value)
 
     def start_game_medium(self, instance=None):
         other_arg_value = 'medio' 
         self.manager.current = 'game'
-        self.manager.get_screen('game').set_difficulty(23, other_arg_value)
+        self.manager.get_screen('game').set_difficulty(30, other_arg_value)
 
     def start_game_hard(self, instance=None):
         other_arg_value = 'dificil'
         self.manager.current = 'game'
-        self.manager.get_screen('game').set_difficulty(15, other_arg_value)
+        self.manager.get_screen('game').set_difficulty(20, other_arg_value)
 
     def go_back_to_main_menu(self, instance=None):
         self.manager.current = 'main'
@@ -273,41 +273,67 @@ class GameScreen(Screen):
 
     def show_pause_popup(self, instance):
         self.pause_game()  # Pausar el juego cuando se abre el popup
+        content = FloatLayout()  # Cambiar a FloatLayout para centrar los botones
 
-        content = BoxLayout(orientation='vertical', padding=10, spacing=10)
-
-        resume_button = Button(text="Reanudar", size_hint=(None, None), size=(200, 50))
+        # Botón de reanudar
+        resume_button = Button(
+            text="Reanudar",
+            size_hint=(None, None),
+            size=(200, 40),
+            background_color=(0.1, 0.5, 0.9, 1),
+            font_size=20
+        )
         resume_button.bind(on_press=self.close_pause_popup)
-
-        modify_time_button = Button(text="Cambiar Tiempo", size_hint=(None, None), size=(200, 50))
-        modify_time_button.bind(on_press=self.modify_time)
-
-        content.add_widget(resume_button)
-        content.add_widget(modify_time_button)
         
-        # Aquí es donde se inicializa el Popup ANTES de abrirlo
+        # Botón de regresar al menú
+        menu_button = Button(
+            text="Volver a Menú",
+            font_size=20,
+            size_hint=(None, None),
+            size=(200, 40),
+            pos_hint={'center_x': 0.5, 'center_y': 0.3},
+            background_color=(0.9, 0.7, 0.1, 1)  # Amarillo
+        )
+        menu_button.bind(on_press=self.close_pause_popup)
+        menu_button.bind(on_press=self.go_to_main)
+        #layout.add_widget(menu_button)
+
+        # Posicionar los botones en el centro de la pantalla
+        content.add_widget(resume_button)
+        content.add_widget(menu_button)
+        
+        # Posicionar los botones en el layout (ajustar las coordenadas según sea necesario)
+        resume_button.pos_hint = {'center_x': 0.5, 'center_y': 0.6}
+        menu_button.pos_hint = {'center_x': 0.5, 'center_y': 0.4}
+
+        # Inicializa el Popup antes de abrirlo
         self.pause_popup = Popup(
             title='Juego Pausado',
             content=content,
-            size_hint=(None, None),
-            size=(400, 200)
+            size_hint=(0.5, 0.5),
+            size=(400, 200),
+            auto_dismiss=False,
+            separator_color=(0.1, 0.5, 0.9, 1),
+            background_color=(0.02, 0.08, 0.15, 1),
+            separator_height=2,
+            title_color=(1, 1, 1, 1),
+            title_size=24,
         )
+        self.pause_popup.open() 
+
+    def reset_attempts(self):
+        self.attempts = 0 # Reiniciar el contador de intentos
+
+    def go_to_main(self, instance):
         
-        self.pause_popup.open()  # Ahora lo abres
-    def close_pause_popup(self, instance):
+        self.reset_attempts()
+        self.manager.current = 'main'
+
+    def close_pause_popup(self, instance,*args):
         if self.pause_popup:  # Asegúrate de que el popup exista
             self.pause_popup.dismiss()  # Cierra el popup
-        self.resume_game()  # Reanuda el juego
-    def modify_time(self, instance):
-        self.time_left += 10  # Añadir 10 segundos al tiempo restante
-        self.timer_bar.value = self.time_left
-        self.pause_popup.dismiss()
-        self.pause_popup = Popup(
-            title='Juego Pausado',
-            content=content,
-            size_hint=(None, None),
-            size=(400, 200)
-        )
+            self.resume_game()  # Reanuda el juego
+
 
     def _update_bar_rect(self, instance, value):
             self.bar_rect.pos = instance.pos
