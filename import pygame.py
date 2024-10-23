@@ -359,15 +359,15 @@ class GameScreen(Screen):
             return button
 
     def load_questions_and_answers(self, difficulty):
-       
         # Definir la ruta base y la carpeta según la dificultad seleccionada
         base_path = f'text/{difficulty}/'
-        
+
         # Archivos basados en la dificultad
         question_file = f"{base_path}questions.txt"
         correct_file = f"{base_path}correct_answers.txt"
         wrong_file = f"{base_path}wrong_answers.txt"
 
+        # Leer las preguntas, respuestas correctas e incorrectas
         with open(question_file, 'r', encoding='utf-8') as file:
             self.questions = [line.strip() for line in file.readlines()]
 
@@ -377,11 +377,24 @@ class GameScreen(Screen):
         with open(wrong_file, 'r', encoding='utf-8') as file:
             self.wrong_answers = [line.strip().split(',') for line in file.readlines()]
 
+        # Verificar que el número de preguntas y respuestas coincidan
         if len(self.questions) != len(self.correct_answers) or len(self.questions) != len(self.wrong_answers):
             raise ValueError("El número de preguntas no coincide con el número de respuestas.")
 
+        # Mezclar las preguntas y respuestas manteniendo la correspondencia entre ellas
+        question_data = list(zip(self.questions, self.correct_answers, self.wrong_answers))
+        
+        # Mezclar todo el conjunto de preguntas y respuestas
+        random.shuffle(question_data)  # Aleatoriedad de las preguntas
+
+        # Desempaquetar de nuevo en las listas originales, pero ya aleatorias
+        self.questions, self.correct_answers, self.wrong_answers = zip(*question_data)
+
+        # Iniciar mostrando la primera pregunta aleatoria
         self.load_question(0)
 
+
+    
     def load_question(self, index):
         self.current_question_index = index
         self.question_label.text = self.questions[index]
@@ -389,9 +402,11 @@ class GameScreen(Screen):
         correct_answer = self.correct_answers[index]
         wrong_answers = self.wrong_answers[index]
 
+        # Combinar respuestas correctas e incorrectas
         all_answers = wrong_answers + [correct_answer]
-        random.shuffle(all_answers)
+        random.shuffle(all_answers)  # Aleatoriedad de las respuestas
 
+        # Asignar las respuestas aleatorias a los botones
         self.answer_button1.text = all_answers[0]
         self.answer_button2.text = all_answers[1]
         self.answer_button3.text = all_answers[2]
