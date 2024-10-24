@@ -13,7 +13,7 @@ import random
 from kivy.uix.popup import Popup
 from kivy.core.window import Window
 # Establecer el tamaño de la ventana
-Window.size = (800, 600)
+Window.size = (800, 700)
 
 # Establecer el título de la ventana
 Window.title = "Supervivencia Mental"
@@ -181,22 +181,25 @@ class DifficultyScreen(Screen):
 class GameScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.sound_correct = SoundLoader.load('sounds/Answer/correct_answer.wav')
-        self.sound_wrong = SoundLoader.load('sounds/Answer/wrong_answer.wav')
+        self.sound_correct = SoundLoader.load('correct_answer.wav')
+        self.sound_wrong = SoundLoader.load('wrong_answer.wav')
         #self.sontrack = SoundLoader.load('sounds/Misc/')  //Aqui ira la musica de juego
         self.questions = []
         self.answers = []
         self.wrong_answers = []
         self.is_paused = False
         self.correct_answers = []   
-        self.correct_answers = []
         self.wrong_answers = []
         self.time_left = 0
         self.attempts = 0
-        self.max_attempts = 3
+        self.max_attempts = 5
         self.current_question_index = 0 
+        self.remaining_time = 0  # Almacena el tiempo restante del jugador
+        self.difficulty = None  # Almacena la dificultad actual 
+        self.time_increment = 0  # Incremento de tiempo al acertarz
         self.timer_bar = ProgressBar()
         self.build_game_screen()
+        self.initial_time = 0  # Tiempo inicial según la dificultad
 
     def build_game_screen(self):
         layout = FloatLayout()
@@ -206,7 +209,7 @@ class GameScreen(Screen):
         layout.add_widget(self.timer_bar)
 
         with layout.canvas.before:
-            Color(0.02, 0.08, 0.15, 1)  # Fondo azul oscuro #021526
+            Color(0.02, 0.08, 0.15, 1)
             self.bg_rect = RoundedRectangle(size=layout.size, pos=layout.pos, radius=[0])
             layout.bind(size=self._update_bg_rect, pos=self._update_bg_rect)
 
@@ -218,11 +221,22 @@ class GameScreen(Screen):
             pos_hint={'center_x': 0.5, 'center_y': 0.7},
             halign='center',
             valign='middle',
-            color=(1, 1, 1, 1)  # Texto blanco
+            color=(1, 1, 1, 1)
         )
         self.question_label.text_size = (400, None)
         layout.add_widget(self.question_label)
 
+        self.attempts_label = Label(
+            text=f"Intentos restantes: {self.max_attempts}",
+            font_size=24,
+            size_hint=(None, None),
+            size=(200, 50),
+            pos_hint={'center_x': 0.8, 'center_y': 0.9},  # Posición ajustada
+            color=(1, 1, 1, 1)  # Texto blanco
+        )
+        layout.add_widget(self.attempts_label)  # Agrega el Label al layout
+
+        # Botones de respuesta
         button_layout = BoxLayout(
             orientation='horizontal',
             spacing=10,
@@ -230,18 +244,6 @@ class GameScreen(Screen):
             size=(600, 50),
             pos_hint={'center_x': 0.5, 'center_y': 0.4}
         )
-        self.stop_button = Button(
-            text="Stop",
-            font_size=24,
-            size_hint=(None, None),
-            size=(150, 50),
-            pos_hint={'center_x': 0.5, 'center_y': 0.2},
-            background_normal='',
-            background_color=(1, 0, 0, 1)  # Rojo
-        )
-        self.stop_button.bind(on_press=self.show_pause_popup)
-        layout.add_widget(self.stop_button)
-
         self.answer_button1 = self.create_button("Respuesta 1")
         self.answer_button2 = self.create_button("Respuesta 2")
         self.answer_button3 = self.create_button("Respuesta 3")
@@ -252,25 +254,40 @@ class GameScreen(Screen):
 
         layout.add_widget(button_layout)
 
-        # No vuelvas a crear el timer_bar aquí, ya lo has creado en __init__
-        #layout.add_widget(self.timer_bar)
+        # Botón de Stop
+        self.stop_button = Button(
+            text="Stop",
+            font_size=24,
+            size_hint=(None, None),
+            size=(150, 50),
+            pos_hint={'center_x': 0.5, 'center_y': 0.2},
+            background_normal='',
+            background_color=(1, 0, 0, 1)
+        )
+        self.stop_button.bind(on_press=self.show_pause_popup)
+        layout.add_widget(self.stop_button)
 
         with self.timer_bar.canvas.before:
             self.bar_color = Color(0.02, 0.08, 0.15, 1)  # Azul inicial
             self.bar_rect = RoundedRectangle(size=self.timer_bar.size, pos=self.timer_bar.pos)
             self.timer_bar.bind(pos=self._update_bar_rect, size=self._update_bar_rect)
-        # Solo agrega el layout una vez
         self.add_widget(layout)
+
+    def update_attempts(self):
+        """Actualiza el texto del label de intentos restantes."""
+        self.attempts_label.text = f"Intentos restantes: {self.max_attempts - self.attempts}"
+
+    
     def pause_game(self):
         if not self.is_paused:
             Clock.unschedule(self.update_time)  # Detener el temporizador
             self.is_paused = True
-
+    
     def resume_game(self):
         if self.is_paused:
             Clock.schedule_interval(self.update_time, 1)  # Reiniciar el temporizador
             self.is_paused = False
-
+    
     def show_pause_popup(self, instance):
         self.pause_game()  # Pausar el juego cuando se abre el popup
         content = FloatLayout()  # Cambiar a FloatLayout para centrar los botones
@@ -323,17 +340,12 @@ class GameScreen(Screen):
 
     def reset_attempts(self):
         self.attempts = 0 # Reiniciar el contador de intentos
-
-    def go_to_main(self, instance):
         
-        self.reset_attempts()
-        self.manager.current = 'main'
 
     def close_pause_popup(self, instance,*args):
         if self.pause_popup:  # Asegúrate de que el popup exista
             self.pause_popup.dismiss()  # Cierra el popup
             self.resume_game()  # Reanuda el juego
-
 
     def _update_bar_rect(self, instance, value):
             self.bar_rect.pos = instance.pos
@@ -393,8 +405,6 @@ class GameScreen(Screen):
         # Iniciar mostrando la primera pregunta aleatoria
         self.load_question(0)
 
-
-    
     def load_question(self, index):
         self.current_question_index = index
         self.question_label.text = self.questions[index]
@@ -412,34 +422,51 @@ class GameScreen(Screen):
         self.answer_button3.text = all_answers[2]
 
     def check_answer(self, instance):
-            correct_answer = self.correct_answers[self.current_question_index]
-            if instance.text == correct_answer:
-                self.question_label.text = "¡Correcto!"
-                if self.sound_correct:
-                    self.sound_correct.play()
-                # Sumar 2 segundos al temporizador sin exceder el máximo permitido
-                self.time_left = min(self.time_left + 2, self.initial_time)  
-                self.timer_bar.value = self.time_left
-                
-                if self.current_question_index + 1 < len(self.questions):
-                    self.load_question(self.current_question_index + 1)
-                else:
-                    self.show_game_over_popup()
-            else:#
-                self.attempts += 1
-                # Restar 2 segundos al temporizador sin reiniciar
-                self.time_left = max(self.time_left - 2, 0)  # Asegurarte de que no sea menor a 0
-                self.timer_bar.value = self.time_left
-                
-                if self.attempts >= self.max_attempts:
-                    self.question_label.text = "¡Has fallado los 3 intentos!"
-                    Clock.unschedule(self.update_time)  # Detener el temporizador
-                    self.show_game_over_popup()
-                else:
-                    self.question_label.text = f"Incorrecto. Intentos restantes: {self.max_attempts - self.attempts}"
-                    if self.sound_wrong:
-                        self.sound_wrong.play()
+        correct_answer = self.correct_answers[self.current_question_index]
+        
+        if instance.text == correct_answer:
+            self.question_label.text = "¡Correcto!"
+            if self.sound_correct:
+                self.sound_correct.play()
 
+            # Ajustar el tiempo añadido según la dificultad
+            if self.difficulty == 'facil':
+                self.time_left = min(self.time_left + 2, self.initial_time)
+            elif self.difficulty == 'medio':
+                self.time_left = min(self.time_left + 3, self.initial_time)
+            elif self.difficulty == 'dificil':
+                self.time_left = min(self.time_left + 4, self.initial_time)
+            
+            self.timer_bar.value = self.time_left
+            
+            if self.current_question_index + 1 < len(self.questions):
+                self.load_question(self.current_question_index + 1)
+            else:
+                self.show_game_over_popup()
+        
+        else:
+            self.attempts += 1
+            
+            # Ajustar el tiempo restado según la dificultad
+            if self.difficulty == 'facil':
+                self.time_left = max(self.time_left - 4, 0)
+            elif self.difficulty == 'medio':
+                self.time_left = max(self.time_left - 3, 0)
+            elif self.difficulty == 'dificil':
+                self.time_left = max(self.time_left - 2, 0)
+            
+            self.timer_bar.value = self.time_left
+            
+            if self.attempts >= self.max_attempts:
+                self.question_label.text = "¡Has fallado los intentos!"
+                Clock.unschedule(self.update_time)  # Detener el temporizador
+                self.show_game_over_popup()
+            else:
+                self.attempts_label.text = f"Intentos restantes: {self.max_attempts - self.attempts}"
+                self.question_label.text = "¡Incorrecto!"
+                if self.sound_wrong:
+                    self.sound_wrong.play()
+    
     def update_time(self, dt):
         self.time_left -= 1
         if self.time_left <= 5:
@@ -455,13 +482,30 @@ class GameScreen(Screen):
             self.show_game_over_popup()  # Mostramos el popup de fin del juego
 
     def set_difficulty(self, time_limit, difficulty):
-            self.load_questions_and_answers(difficulty)  # Cargar preguntas basadas en la dificultad
-            self.initial_time = time_limit  # Establecer el tiempo inicial
-            self.time_left = time_limit  # El tiempo restante es igual al tiempo límite
-            self.timer_bar.max = time_limit  # Establecer el máximo valor del temporizador
-            self.timer_bar.value = time_limit  # Inicializar la barra de progreso con el tiempo restante
-            Clock.schedule_interval(self.update_time, 1)  # Iniciar el temporizador
-            #self.load_questions_and_answers()
+        self.load_questions_and_answers(difficulty)  # Cargar preguntas basadas en la dificultad
+        self.initial_time = time_limit  # Establecer el tiempo inicial
+        self.time_left = time_limit  # El tiempo restante es igual al tiempo límite
+        self.timer_bar.max = time_limit  # Establecer el máximo valor del temporizador
+        self.timer_bar.value = time_limit  # Inicializar la barra de progreso con el tiempo restante
+        self.difficulty = difficulty  # Establecer la dificultad seleccionada
+        
+        # Ajustar los intentos máximos según la dificultad
+        if difficulty == 'facil':
+            self.max_attempts = 5
+        elif difficulty == 'medio':
+            self.max_attempts = 4
+        elif difficulty == 'dificil':
+            self.max_attempts = 3  # Valor predeterminado
+        Clock.schedule_interval(self.update_time, 1)
+
+    def on_correct_answer(self):
+        self.remaining_time += self.time_increment
+        # Actualizar el UI o cualquier otro componente visual con el tiempo restante
+
+    # Método llamado cuando el jugador falla una respuesta
+    def on_wrong_answer(self):
+        self.remaining_time -= self.time_decrement
+        self.attempts -= 1
 
     def show_game_over_popup(self):
         popup = Popup(
@@ -475,6 +519,11 @@ class GameScreen(Screen):
         popup.open()
 
     def go_to_main_screen(self, instance):
+        self.manager.current = 'main'
+
+    def go_to_main(self, instance):
+        
+        self.reset_attempts()
         self.manager.current = 'main'
 
 class ConfigScreen(Screen):
