@@ -1,20 +1,30 @@
-Azteca,Olmeca
-Bélgica,Canadá
-Teorema de Fermat,Teorema de Euclides
-El protón,El neutrón
-Mónaco,San Marino
-Fosa de Tonga,Fosa Filipina
-Isaac Newton,Niels Bohr
-Roca sedimentaria,Roca metamórfica
-100 millones de kilómetros,200 millones de kilómetros
-Roma,Madrid
-Platón,Aristóteles
-Louis Pasteur,Edward Jenner
-Egipto,Siria
-Ley de gravitación universal,Ley de Coulomb
-1940,1950
-Nerón,Julio César
-Español,Inglés
-Maya,Inca
-Oslo,Copenhague
-Henri Matisse,Marc Chagall
+Franz Kafka,Victor Hugo
+Grecia,Líbano
+Aristóteles,Sócrates
+Relatividad,Expansión Universal
+Caravaggio,Tiziano
+Louis Pasteur,Charles Darwin
+China,Corea
+Vladímir Lenin,Nikita Jrushchov
+Euclides,Arquímedes
+Irak,Grecia
+Hungría,Polonia
+René Descartes,John Napier
+Michael Faraday,Albert Einstein
+Cristóbal Colón,Vasco da Gama
+James Joyce,Franz Kafka
+Protón,Neutrón
+Andrea Palladio,Carlo Maderno
+Dinastía Han,Dinastía Song
+Egipto,Persia
+Fenicios,Egipcios
+Antíoco IV,Julio César
+Sófocles,Esquilo
+Karl Marx,David Ricardo
+George Brayton,Nikolaus Otto
+Galileo Galilei,Johannes Kepler
+Éxtasis,Unidad espiritual
+Imperio Maya,Imperio Inca
+William Shakespeare,Dante Alighieri
+Calcio,Cobalto
+395,532

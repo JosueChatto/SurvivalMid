@@ -1,2 +1,14 @@
-pip install pygame
-python -m pygame.examples.aliens
+Cosas a añadir el videojuego:
+- sistema de puntos.
+    / alfinal cada juego aparezca un recuadro con el score
+    / cantidad de respuestas respondidas.
+- un botón de pausa en la gamescreen 🟢.
+    / permita regresar al menú principal 🟢.
+- preguntas y respuestas aleatorias🟢.
+- sonido de juego.
+    / En este permitirá silenciar el juego .
+- iconos y estilos amigables,
+- recursividad en botones,
+- botón de volver 🟢,
+- tiempo añadido por dificultad🟢,
+- al equivocarse la pregunta desaparece por los intentos🟢.

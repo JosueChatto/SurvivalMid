@@ -1,20 +1,30 @@
-5,6
 Verde,Rojo
-6,8
-Elefante,León
-Nitrógeno,Carbono
-Verde,Rosa
-6,10
-Asia,Europa
-4,5
-Venus,Marte
-Manzana,Naranja
-Guadalajara,Monterrey
-Océano Atlántico,Mar Caribe
-Donald Duck,Bugs Bunny
-Tres,Cinco
-En el brazo,En la cabeza
-Barómetro,Higrómetro
-Stephen King,Agatha Christie
-Asia,América
-Tigre,Elefante
+Italia,España
+Iguana,Serpiente
+Venus,Tierra
+Pulmones,Cerebro
+Pablo Neruda,Mario Vargas Llosa
+América,Europa
+Seis,Diez
+Héctor,Ulises
+Hueso,Plástico
+Lima,Rosario
+Uva,Limón
+Primavera,Invierno
+Dos,Cuatro
+Perro,Gato
+Hidrógeno,Nitrógeno
+Asia,Oceanía
+Marte,Venus
+Fútbol,Golf
+Pablo Picasso,Salvador Dalí
+Cangrejo,Erizo
+Violín,Guitarra
+Desierto,Selva
+España,México
+Europa,África
+Francia,Inglaterra
+Mariposa,Hormiga
+Rojo,Azul
+Melón,Fresa
+Nikola Tesla,Alexander Graham Bell

@@ -181,8 +181,8 @@ class DifficultyScreen(Screen):
 class GameScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.sound_correct = SoundLoader.load('correct_answer.wav')
-        self.sound_wrong = SoundLoader.load('wrong_answer.wav')
+        self.sound_correct = SoundLoader.load('sounds/Answers/correct_answer.wav')
+        self.sound_wrong = SoundLoader.load('sounds/Answers/wrong_answer.wav')
         #self.sontrack = SoundLoader.load('sounds/Misc/')  //Aqui ira la musica de juego
         self.questions = []
         self.answers = []
