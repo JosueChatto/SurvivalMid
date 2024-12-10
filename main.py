@@ -75,6 +75,8 @@ class MainScreen(Screen):
 
         self.add_widget(layout)
 
+    #SoundLoader.load('sounds/Misc/PuzzleGame.wav').play()
+
     def _update_bg_rect(self, instance, value):
         self.bg_rect.pos = instance.pos
         self.bg_rect.size = instance.size
@@ -183,7 +185,7 @@ class GameScreen(Screen):
         super().__init__(**kwargs)
         self.sound_correct = SoundLoader.load('sounds/Answers/correct_answer.wav')
         self.sound_wrong = SoundLoader.load('sounds/Answers/wrong_answer.wav')
-        #self.sontrack = SoundLoader.load('sounds/Misc/')  //Aqui ira la musica de juego
+        self.sontrack = SoundLoader.load('sounds/Misc/PuzzleGame.wav')  #Aqui ira la musica de juego
         self.questions = []
         self.answers = []
         self.wrong_answers = []
@@ -336,6 +338,7 @@ class GameScreen(Screen):
             title_color=(1, 1, 1, 1),
             title_size=24,
         )
+
         self.pause_popup.open() 
 
     def reset_attempts(self):
@@ -529,6 +532,8 @@ class GameScreen(Screen):
 class ConfigScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.music_enabled = True  # Estado inicial de la música
+        self.sounds_enabled = True  # Estado inicial de los sonidos
         layout = FloatLayout()
 
         title = Label(
@@ -541,6 +546,19 @@ class ConfigScreen(Screen):
         )
         layout.add_widget(title)
 
+        self.music_button = Button(
+            text="Música: Activada",
+            font_size=24,
+            size_hint=(None, None),
+            size=(200, 50),
+            pos_hint={'center_x': 0.5, 'center_y': 0.6},
+            background_color=(0.1, 0.5, 0.9, 1)
+        )
+        self.music_button.bind(on_press=self.toggle_music)
+        layout.add_widget(self.music_button)
+
+        
+        
         back_button = Button(
             text="Volver",
             font_size=24,
@@ -562,6 +580,18 @@ class ConfigScreen(Screen):
     def _update_bg_rect(self, instance, value):
         self.bg_rect.pos = instance.pos
         self.bg_rect.size = instance.size
+
+    def toggle_music(self, instance):
+        self.music_enabled = not self.music_enabled
+        self.music_button.text = "Música: Activada" if self.music_enabled else "Música: Desactivada"
+        if self.music_enabled:
+            SoundLoader.load('sounds/Misc/PuzzleGame.wav').play()
+        else:
+            SoundLoader.load('sounds/Misc/PuzzleGame.wav').stop()
+
+    def toggle_sounds(self, instance):
+        self.sounds_enabled = not self.sounds_enabled
+        self.sounds_button.text = "Sonidos: Activados" if self.sounds_enabled else "Sonidos: Desactivados"
 
     def go_to_main(self, instance):
         self.manager.current = 'main'
