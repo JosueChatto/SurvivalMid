@@ -13,7 +13,7 @@ import random
 from kivy.uix.popup import Popup
 from kivy.core.window import Window
 # Establecer el tamaño de la ventana
-Window.size = (800, 700)
+Window.size = (960, 1700)
 
 # Establecer el título de la ventana
 Window.title = "Supervivencia Mental"
@@ -27,8 +27,9 @@ class MainScreen(Screen):
         title = Label(
             text="Supervivencia Mental",
             font_size=50,
+            bold=True,
             size_hint=(None, None),
-            size=(400, 100),
+            size=(600, 200),
             pos_hint={'center_x': 0.5, 'center_y': 0.7},
             color=(1, 1, 1, 1)  # Texto blanco
         )
@@ -36,9 +37,9 @@ class MainScreen(Screen):
 
         play_button = Button(
             text="¡JUGAR!",
-            font_size=40,
+            font_size=80,
             size_hint=(None, None),
-            size=(200, 75),
+            size=(300, 175),
             pos_hint={'center_x': 0.5, 'center_y': 0.5},
             background_color=(0.1, 0.7, 0.1, 1)  # Verde
             
@@ -48,9 +49,9 @@ class MainScreen(Screen):
 
         config_button = Button(
             text="Configurar",
-            font_size=24,
+            font_size=50,
             size_hint=(None, None),
-            size=(200, 50),
+            size=(300, 150),
             pos_hint={'center_x': 0.5, 'center_y': 0.4},
             background_color=(0.1, 0.5, 0.9, 1)  # Azul
         )
@@ -59,9 +60,9 @@ class MainScreen(Screen):
 
         exit_button = Button(
             text="Salir",
-            font_size=24,
+            font_size=50,
             size_hint=(None, None),
-            size=(200, 50),
+            size=(300, 150),
             pos_hint={'center_x': 0.5, 'center_y': 0.3},
             background_color=(0.9, 0.1, 0.1, 1)  # Rojo
         )
@@ -75,7 +76,7 @@ class MainScreen(Screen):
 
         self.add_widget(layout)
 
-    #SoundLoader.load('sounds/Misc/PuzzleGame.wav').play()
+    SoundLoader.load('PuzzleGame.wav').play()
 
     def _update_bg_rect(self, instance, value):
         self.bg_rect.pos = instance.pos
@@ -97,9 +98,10 @@ class DifficultyScreen(Screen):
 
         title = Label(
             text="Selecciona la Dificultad",
-            font_size=32,
+            bold=True,
+            font_size=84,
             size_hint=(None, None),
-            size=(400, 100),
+            size=(500, 200),
             pos_hint={'center_x': 0.5, 'center_y': 0.7},
             color=(1, 1, 1, 1)  # Texto blanco
         )
@@ -107,9 +109,9 @@ class DifficultyScreen(Screen):
 
         easy_button = Button(
             text="Fácil",
-            font_size=24,
+            font_size=40,
             size_hint=(None, None),
-            size=(200, 50),
+            size=(300, 150),
             pos_hint={'center_x': 0.5, 'center_y': 0.5},
             background_color=(0.1, 0.7, 0.1, 1)  # Verde
         )
@@ -118,9 +120,9 @@ class DifficultyScreen(Screen):
 
         medium_button = Button(
             text="Medio",
-            font_size=24,
+            font_size=40,
             size_hint=(None, None),
-            size=(200, 50),
+            size=(300, 150),
             pos_hint={'center_x': 0.5, 'center_y': 0.4},
             background_color=(0.1, 0.5, 0.9, 1)  # Azul
         )
@@ -129,9 +131,9 @@ class DifficultyScreen(Screen):
 
         hard_button = Button(
             text="Difícil",
-            font_size=24,
+            font_size=40,
             size_hint=(None, None),
-            size=(200, 50),
+            size=(300, 150),
             pos_hint={'center_x': 0.5, 'center_y': 0.3},
             background_color=(0.9, 0.1, 0.1, 1)  # Rojo
         )
@@ -141,9 +143,9 @@ class DifficultyScreen(Screen):
         # Botón para regresar al menú principal
         back_button = Button(
             text="Volver",
-            font_size=24,
+            font_size=40,
             size_hint=(None, None),
-            size=(200, 50),
+            size=(300, 150),
             pos_hint={'center_x': 0.5, 'center_y': 0.2},
             background_color=(0.9, 0.7, 0.1, 1)  # Amarillo
         )
@@ -183,9 +185,9 @@ class DifficultyScreen(Screen):
 class GameScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.sound_correct = SoundLoader.load('sounds/Answers/correct_answer.wav')
-        self.sound_wrong = SoundLoader.load('sounds/Answers/wrong_answer.wav')
-        self.sontrack = SoundLoader.load('sounds/Misc/PuzzleGame.wav')  #Aqui ira la musica de juego
+        self.sound_correct = SoundLoader.load('correct_answer.wav')
+        self.sound_wrong = SoundLoader.load('wrong_answer.wav')
+        self.sontrack = SoundLoader.load('PuzzleGame.wav')  #Aqui ira la musica de juego
         self.questions = []
         self.answers = []
         self.wrong_answers = []
@@ -217,7 +219,8 @@ class GameScreen(Screen):
 
         self.question_label = Label(
             text="Pregunta aquí",
-            font_size=32,
+            bold=True,
+            font_size=42,
             size_hint=(None, None),
             size=(600, 100),
             pos_hint={'center_x': 0.5, 'center_y': 0.7},
@@ -243,7 +246,7 @@ class GameScreen(Screen):
             orientation='horizontal',
             spacing=10,
             size_hint=(None, None),
-            size=(600, 50),
+            size=(700, 250),
             pos_hint={'center_x': 0.5, 'center_y': 0.4}
         )
         self.answer_button1 = self.create_button("Respuesta 1")
@@ -259,9 +262,10 @@ class GameScreen(Screen):
         # Botón de Stop
         self.stop_button = Button(
             text="Stop",
-            font_size=24,
+            font_size=44,
+            blod=True,
             size_hint=(None, None),
-            size=(150, 50),
+            size=(250, 150),
             pos_hint={'center_x': 0.5, 'center_y': 0.2},
             background_normal='',
             background_color=(1, 0, 0, 1)
@@ -298,7 +302,7 @@ class GameScreen(Screen):
         resume_button = Button(
             text="Reanudar",
             size_hint=(None, None),
-            size=(200, 40),
+            size=(300, 140),
             background_color=(0.1, 0.5, 0.9, 1),
             font_size=20
         )
@@ -309,7 +313,7 @@ class GameScreen(Screen):
             text="Volver a Menú",
             font_size=20,
             size_hint=(None, None),
-            size=(200, 40),
+            size=(300, 140),
             pos_hint={'center_x': 0.5, 'center_y': 0.3},
             background_color=(0.9, 0.7, 0.1, 1)  # Amarillo
         )
@@ -330,7 +334,7 @@ class GameScreen(Screen):
             title='Juego Pausado',
             content=content,
             size_hint=(0.5, 0.5),
-            size=(400, 200),
+            size=(550, 300),
             auto_dismiss=False,
             separator_color=(0.1, 0.5, 0.9, 1),
             background_color=(0.02, 0.08, 0.15, 1),
@@ -338,7 +342,6 @@ class GameScreen(Screen):
             title_color=(1, 1, 1, 1),
             title_size=24,
         )
-
         self.pause_popup.open() 
 
     def reset_attempts(self):
@@ -375,12 +378,12 @@ class GameScreen(Screen):
 
     def load_questions_and_answers(self, difficulty):
         # Definir la ruta base y la carpeta según la dificultad seleccionada
-        base_path = f'text/{difficulty}/'
+        base_path = f'{difficulty}'
 
         # Archivos basados en la dificultad
-        question_file = f"{base_path}questions.txt"
-        correct_file = f"{base_path}correct_answers.txt"
-        wrong_file = f"{base_path}wrong_answers.txt"
+        question_file = f"{base_path}_questions.csv"
+        correct_file = f"{base_path}_correct_answers.csv"
+        wrong_file = f"{base_path}_wrong_answers.csv"
 
         # Leer las preguntas, respuestas correctas e incorrectas
         with open(question_file, 'r', encoding='utf-8') as file:
@@ -572,7 +575,7 @@ class ConfigScreen(Screen):
 
         with layout.canvas.before:
             Color(0.02, 0.08, 0.15, 1)  # Fondo azul oscuro #021526
-            self.bg_rect = RoundedRectangle(size=layout.size, pos=layout.pos, radius=[0])
+            self.bg_rect = RoundedRectangle(size=layout.size, pos=layout.pos, radius=[10])
             layout.bind(size=self._update_bg_rect, pos=self._update_bg_rect)
 
         self.add_widget(layout)
@@ -585,9 +588,9 @@ class ConfigScreen(Screen):
         self.music_enabled = not self.music_enabled
         self.music_button.text = "Música: Activada" if self.music_enabled else "Música: Desactivada"
         if self.music_enabled:
-            SoundLoader.load('sounds/Misc/PuzzleGame.wav').play()
+            SoundLoader.load('PuzzleGame.wav').play()
         else:
-            SoundLoader.load('sounds/Misc/PuzzleGame.wav').stop()
+            SoundLoader.load('PuzzleGame.wav').stop()
 
     def toggle_sounds(self, instance):
         self.sounds_enabled = not self.sounds_enabled
