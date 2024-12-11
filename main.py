@@ -1,3 +1,6 @@
+#Copyright (c) 2024 Josue Sebastian Cardenas Orozco
+#Licensed under the MIT License. See LICENSE file in the project root for full license information.
+
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
