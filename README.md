@@ -3,6 +3,7 @@ Juego Para la especialidad
 ---
 
 # Proyecto de Videojuego - Supervivencia Mental
+Supervivencia Mental es un juego educativo diseñado para poner a prueba los conocimientos generales de los jugadores con preguntas de cultura general. Es una herramienta divertida para mejorar habilidades cognitivas.
 
 ## Descripción general del repositorio
 

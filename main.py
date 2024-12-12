@@ -79,8 +79,6 @@ class MainScreen(Screen):
 
         self.add_widget(layout)
 
-    SoundLoader.load('PuzzleGame.wav').play()
-
     def _update_bg_rect(self, instance, value):
         self.bg_rect.pos = instance.pos
         self.bg_rect.size = instance.size
@@ -236,9 +234,9 @@ class GameScreen(Screen):
 
         self.attempts_label = Label(
             text=f"Intentos restantes: {self.max_attempts}",
-            font_size=24,
+            font_size=34,
             size_hint=(None, None),
-            size=(200, 50),
+            size=(300, 150),
             pos_hint={'center_x': 0.8, 'center_y': 0.9},  # Posición ajustada
             color=(1, 1, 1, 1)  # Texto blanco
         )
@@ -266,7 +264,6 @@ class GameScreen(Screen):
         self.stop_button = Button(
             text="Stop",
             font_size=44,
-            blod=True,
             size_hint=(None, None),
             size=(250, 150),
             pos_hint={'center_x': 0.5, 'center_y': 0.2},
@@ -286,7 +283,6 @@ class GameScreen(Screen):
         """Actualiza el texto del label de intentos restantes."""
         self.attempts_label.text = f"Intentos restantes: {self.max_attempts - self.attempts}"
 
-    
     def pause_game(self):
         if not self.is_paused:
             Clock.unschedule(self.update_time)  # Detener el temporizador
@@ -369,7 +365,7 @@ class GameScreen(Screen):
                 text=text,
                 font_size=24,
                 size_hint=(None, None),
-                size=(200, 50),
+                size=(300, 150),
                 text_size=(200, None),  # Esto permitirá que el texto se ajuste dentro del botón
                 halign='center',  # Centra horizontalmente
                 valign='middle',  # Centra verticalmente
@@ -538,8 +534,7 @@ class GameScreen(Screen):
 class ConfigScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.music_enabled = True  # Estado inicial de la música
-        self.sounds_enabled = True  # Estado inicial de los sonidos
+        self.music_enabled = False  # Estado inicial de la música
         layout = FloatLayout()
 
         title = Label(
@@ -562,8 +557,6 @@ class ConfigScreen(Screen):
         )
         self.music_button.bind(on_press=self.toggle_music)
         layout.add_widget(self.music_button)
-
-        
         
         back_button = Button(
             text="Volver",
@@ -589,11 +582,11 @@ class ConfigScreen(Screen):
 
     def toggle_music(self, instance):
         self.music_enabled = not self.music_enabled
-        self.music_button.text = "Música: Activada" if self.music_enabled else "Música: Desactivada"
+        self.music_button.text = "Música: Desactivada" if self.music_enabled else "Música: Activada"
         if self.music_enabled:
-            SoundLoader.load('PuzzleGame.wav').play()
-        else:
             SoundLoader.load('PuzzleGame.wav').stop()
+        else:
+            SoundLoader.load('PuzzleGame.wav').play()
 
     def toggle_sounds(self, instance):
         self.sounds_enabled = not self.sounds_enabled
